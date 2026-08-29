@@ -45,7 +45,7 @@ function Home() {
           <h1 className="mt-6 font-display text-[clamp(2.6rem,7vw,4.6rem)] font-semibold leading-[1.05]">
             <span className="sr-only">{profile.fullName}</span>
             <span aria-hidden className="block">
-              {words[0].map((c, i) => (
+              {words[0]!.map((c, i) => (
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, y: 40, rotate: 6 }}
@@ -102,7 +102,7 @@ function Home() {
               Let's Connect
             </Link>
             <a
-              href={codingProfiles[0].href}
+              href={codingProfiles[0]!.href}
               target="_blank"
               rel="noreferrer noopener"
               className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"

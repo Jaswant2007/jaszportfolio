@@ -97,9 +97,9 @@ export function HeroScene({ className }: { className?: string }) {
         window.removeEventListener("resize", resize);
         window.removeEventListener("pointermove", onMove);
         wire.geometry.dispose();
-        (wire.material as THREE.Material).dispose();
+        (wire.material as { dispose(): void }).dispose();
         core.geometry.dispose();
-        (core.material as THREE.Material).dispose();
+        (core.material as { dispose(): void }).dispose();
         renderer.dispose();
         if (renderer.domElement.parentNode === el) el.removeChild(renderer.domElement);
       };

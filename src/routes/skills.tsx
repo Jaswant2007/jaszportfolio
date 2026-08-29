@@ -94,7 +94,7 @@ function Skills() {
               Projects page.
             </p>
             <a
-              href={codingProfiles[0].href}
+              href={codingProfiles[0]!.href}
               target="_blank"
               rel="noreferrer noopener"
               className="mt-6 inline-flex rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground lift"
@@ -118,7 +118,7 @@ function Skills() {
               ))}
             </dl>
             <a
-              href={codingProfiles[1].href}
+              href={codingProfiles[1]!.href}
               target="_blank"
               rel="noreferrer noopener"
               className="mt-6 inline-flex rounded-full border border-border px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-secondary"

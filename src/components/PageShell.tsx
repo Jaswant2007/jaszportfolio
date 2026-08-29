@@ -1,9 +1,9 @@
-import { motion } from "motion/react";
+import { motion, type TargetAndTransition } from "motion/react";
 import type { ReactNode } from "react";
 
 type Variant = "fade" | "slide" | "scale" | "curtain" | "blur" | "rise";
 
-const variants: Record<Variant, { initial: object; animate: object; exit?: object }> = {
+const variants: Record<Variant, { initial: TargetAndTransition; animate: TargetAndTransition }> = {
   fade: { initial: { opacity: 0 }, animate: { opacity: 1 } },
   slide: { initial: { opacity: 0, x: 60 }, animate: { opacity: 1, x: 0 } },
   scale: { initial: { opacity: 0, scale: 0.965 }, animate: { opacity: 1, scale: 1 } },
