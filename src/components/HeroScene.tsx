@@ -51,10 +51,14 @@ export function HeroScene({ className }: { className?: string }) {
       );
       group.add(core);
 
-      const ringGeo = new THREE.TorusGeometry(2.1, 0.012, 8, 140);
-      const ringMat = new THREE.MeshBasicMaterial({ color: 0xe8a martin => 0 } as never);
-      void ringGeo;
-      void ringMat;
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(2.1, 0.01, 8, 140),
+        new THREE.MeshBasicMaterial({ color: 0xe0a35c, transparent: true, opacity: 0.55 }),
+      );
+      ring.rotation.x = Math.PI / 2.6;
+      group.add(ring);
+
+
 
       scene.add(new THREE.AmbientLight(0xffffff, 1.1));
       const key = new THREE.DirectionalLight(0xffffff, 1.4);
