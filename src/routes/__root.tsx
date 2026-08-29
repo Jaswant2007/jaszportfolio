@@ -11,6 +11,11 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { GradientField } from "@/components/GradientField";
+import { ParticleField } from "@/components/ParticleField";
+import { CustomCursor } from "@/components/CustomCursor";
+import { FloatingNav } from "@/components/FloatingNav";
+import { SiteFooter } from "@/components/SiteFooter";
 
 function NotFoundComponent() {
   return (
