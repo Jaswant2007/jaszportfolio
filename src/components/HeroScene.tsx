@@ -35,18 +35,19 @@ export function HeroScene({ className }: { className?: string }) {
 
       const wire = new THREE.Mesh(
         new THREE.IcosahedronGeometry(1.5, isMobile ? 1 : 2),
-        new THREE.MeshBasicMaterial({ color: 0x3f6fd8, wireframe: true, transparent: true, opacity: 0.5 }),
+        new THREE.MeshBasicMaterial({ color: 0x2f5fc8, wireframe: true, transparent: true, opacity: 0.75 }),
       );
       group.add(wire);
 
       const core = new THREE.Mesh(
         new THREE.IcosahedronGeometry(1.05, 3),
         new THREE.MeshStandardMaterial({
-          color: 0xffffff,
-          roughness: 0.15,
-          metalness: 0.25,
-          emissive: 0x6fc7d6,
-          emissiveIntensity: 0.25,
+          color: 0xdfe9fb,
+          roughness: 0.25,
+          metalness: 0.55,
+          emissive: 0x3f8fb0,
+          emissiveIntensity: 0.35,
+          flatShading: true,
         }),
       );
       group.add(core);
