@@ -29,7 +29,8 @@ function About() {
         <Reveal delay={0.15} className="mt-8 grid gap-4 sm:grid-cols-3">
           {[
             { k: "Based in", v: profile.location },
-            { k: "Focus", v: "Python · DSA · Web" },
+            { k: "Focus", v: [" Building Real Projects",
+                              "        Problem Solving / DSA"] },
             { k: "Degree", v: "B.Tech CSE" },
           ].map((s) => (
             <div key={s.k} className="rounded-3xl glass p-6">

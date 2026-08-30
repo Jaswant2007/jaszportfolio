@@ -15,7 +15,7 @@ export const Route = createFileRoute("/")({
         content:
           "Portfolio of Jaswant, B.Tech CSE student at Amrita Vishwa Vidyapeetham Chennai — projects, skills, articles and contact.",
       },
-      { property: "og:title", content: "Jaswant — Developer Portfolio" },
+      { property: "og:title", content: "Jaswant Yuvarajan — Developer Portfolio" },
       {
         property: "og:description",
         content: "Interactive portfolio: projects, skills, learning journey and articles.",

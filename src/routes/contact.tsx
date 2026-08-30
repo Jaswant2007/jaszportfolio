@@ -1,3 +1,4 @@
+import { supabaseClient } from "../lib/supabaseClients";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageShell, SectionHeading } from "@/components/PageShell";
@@ -39,13 +40,28 @@ function Contact() {
     return Object.keys(next).length === 0;
   };
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-    const body = `Name: ${values.name}\nEmail: ${values.email}\n\n${values.message}`;
-    window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(values.subject)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
-  };
+const onSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!validate()) return;
+
+  const { error } = await supabaseClient
+    .from("messages")
+    .insert([
+      {
+        name: values.name,
+        email: values.email,
+        subject: values.subject,
+        message: values.message,
+      },
+    ]);
+
+  if (error) {
+    console.error("Error saving message:", error);
+    return;
+  }
+
+  setSent(true);
+};
 
   const field = "mt-2 w-full rounded-2xl border border-border bg-card px-4 py-3 text-sm outline-none transition-shadow focus:ring-2 focus:ring-ring";
 

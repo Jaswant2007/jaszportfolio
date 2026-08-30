@@ -4,53 +4,54 @@
  */
 
 export const profile = {
-  name: "Jaswant",
+  name: "Jaswant Y",
   fullName: "Jaswant Yuvarajan",
-  role: "B.Tech CSE Student & Developer",
-  tagline: "Building thoughtful software while learning Python, DSA and everything in between.",
+  role: "B.Tech CSE Student @ AVV Chennai",
+  tagline:"Translating core Data Structures, OOP, and modern software principles into responsive web applications.",
   intro:
     "I'm a Computer Science and Engineering undergraduate at Amrita Vishwa Vidyapeetham, Chennai. I enjoy turning ideas into working software — from small C programs to web apps — and I'm currently deep into Python and Data Structures & Algorithms.",
   location: "Chennai, India",
-  email: "jaswant@example.com", // ← replace with your real email
+  email: "jas22happy@gmail.com", // ← replace with your real email
   resumeUrl: "", // optional: link to a hosted resume PDF
 };
 
 export const socials = [
   { label: "GitHub", href: "https://github.com/Jaswant2007", handle: "@Jaswant2007" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/", handle: "Add your LinkedIn URL" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/", handle: "https://www.linkedin.com/in/jaswant-yuvarajan-6bb443383/" },
   { label: "Email", href: `mailto:${profile.email}`, handle: profile.email },
 ];
 
 export const codingProfiles = [
-  { label: "GitHub", href: "https://github.com/Jaswant2007", note: "Code & projects", stat: "" },
-  { label: "LeetCode", href: "https://leetcode.com/", note: "DSA practice", stat: "" },
-  { label: "GeeksforGeeks", href: "https://www.geeksforgeeks.org/", note: "Problem solving", stat: "" },
+  { label: "GitHub", href: "https://github.com/Jaswant2007", note: "Code & Projects", stat: "" },
+  { label: "LeetCode", href: "https://leetcode.com/u/Jas22wanty/", note: "Problem Solving / DSA", stat: "" },
+  /*{ label: "GeeksforGeeks", href: "https://www.geeksforgeeks.org/", note: "Problem solving", stat: "" },
   { label: "CodeChef", href: "https://www.codechef.com/", note: "Contests", stat: "" },
   { label: "HackerRank", href: "https://www.hackerrank.com/", note: "Skill badges", stat: "" },
   { label: "Codeforces", href: "https://codeforces.com/", note: "Competitive", stat: "" },
+  */
 ];
 
 /** Stats stay empty until you fill in real numbers — no fabricated data. */
 export const leetcodeStats: { label: string; value: string }[] = [
-  { label: "Problems solved", value: "—" },
-  { label: "Current streak", value: "—" },
-  { label: "Global ranking", value: "—" },
+  { label: "Problems solved", value: "22" },
+  { label: "Current streak", value: "4" },
+  { label: "Global ranking", value: "4,247,238" },
 ];
 
 export const education = [
   {
-    period: "2024 — 2028",
+    period: "2025 — 2029",
     title: "B.Tech, Computer Science & Engineering",
     org: "Amrita Vishwa Vidyapeetham, Chennai",
     detail:
-      "Core coursework in programming, data structures, computer organisation, mathematics and software engineering.",
+      "Core coursework in Data Structures & Algorithms, Object-Oriented Programming, Database Management, and Software Engineering. Actively applying CS fundamentals to design real-world software and web applications.",
     status: "Current",
   },
   {
     period: "Completed",
     title: "Higher Secondary Education",
-    org: "Add your school name",
-    detail: "Science stream with Computer Science.",
+    org: "Narayana Group of Schools",
+    detail: "Specialized in Physics, Chemistry, Mathematics, and Computer Science (PCM-CS). Developed strong foundations in analytical problem solving and basic programming.",
     status: "Done",
   },
 ];
@@ -66,32 +67,40 @@ export const currentlyLearning = [
     detail: "Arrays, strings, linked lists, recursion and complexity analysis.",
     progress: "In progress",
   },
-  {
+  /*{
     title: "Web Development",
     detail: "HTML, CSS and JavaScript fundamentals with modern interactive UI patterns.",
     progress: "Exploring",
   },
+  */
   {
     title: "Problem Solving",
-    detail: "Daily practice on LeetCode and GeeksforGeeks to build consistency.",
-    progress: "Daily",
+    detail: "Daily practice on LeetCode to build consistency.",
+    progress: "Making it Habituated",
   },
 ];
 
 export const certificates = [
   {
-    title: "Add your certificate title",
-    org: "Issuing organisation",
-    date: "2025",
-    credentialUrl: "",
+    title: "System Siege Hackthon",
+    org: "Amrita Vishwa Vidyapeetham",
+    date: "18-07-2026",
+    credentialUrl:"https://unstop.com/certificate-preview/e5347b8e-7cad-4301-b7df-52f28059ad1f",
   },
+  {
+    title:"HACK-A-RUCKUS 2.0",
+    org: "Amrita Vishwa Vidyapeetham",
+    date: "22-12-2025",
+    credentialUrl:"https://unstop.com/certificate-preview/621f8dce-39f2-4790-a2bc-d9f79f58ca8d"
+
+  }
 ];
 
 export const skillGroups = [
   { group: "Programming", items: ["Python", "C", "Java", "JavaScript"] },
-  { group: "Web", items: ["HTML", "CSS", "JavaScript", "Responsive UI"] },
-  { group: "AI / ML", items: ["NumPy", "Pandas", "ML basics"] },
-  { group: "Tools", items: ["Git", "GitHub", "VS Code", "Linux"] },
+  { group: "Web", items: ["HTML", "CSS", "Responsive UI"] },
+  //{ group: "AI / ML", items: ["NumPy", "Pandas", "ML basics"] },
+  { group: "Tools", items: ["GitHub", "VS Code"] },
 ];
 
 export type Project = {
@@ -106,15 +115,14 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "Personal Portfolio",
-    description:
-      "This interactive portfolio — 3D hero, particle field, scroll-driven motion and a fully responsive light UI.",
+    title: "LearnSphere",
+    description:"LearnSphere is a fully responsive student productivity platform featuring a study planner, progress dashboard, Pomodoro timer, and notes system — built from scratch with HTML, CSS, and JavaScript.",
     category: "Web",
-    tech: ["JavaScript", "Three.js", "Framer Motion", "CSS"],
-    github: "https://github.com/Jaswant2007",
-    demo: "",
+    tech: ["HTML5", "CSS3", "Vanilla JavaScript", "Font Awesome"],
+    github: "https://github.com/Jaswant2007/trackingsystem.git",
+    demo: "https://trackingsystem-eosin.vercel.app/",
   },
-  {
+  /*{
     title: "Python Practice Toolkit",
     description:
       "A growing collection of Python scripts and DSA solutions written while learning — clean, commented and tested.",
@@ -137,9 +145,10 @@ export const projects: Project[] = [
     tech: ["Java", "OOP"],
     github: "https://github.com/Jaswant2007",
   },
+  */
 ];
 
-export const projectCategories = ["All", "Web", "AI/ML", "C", "Java", "Hardware", "Other"] as const;
+export const projectCategories = ["All", "Web", "DSA", "Hardware", "Other"] as const;
 
 export const articles = [
   {
@@ -169,6 +178,6 @@ export const navLinks = [
   { label: "About", to: "/about" },
   { label: "Projects", to: "/projects" },
   { label: "Skills", to: "/skills" },
-  { label: "Articles", to: "/articles" },
+  //{ label: "Articles", to: "/articles" },
   { label: "Contact", to: "/contact" },
 ] as const;
