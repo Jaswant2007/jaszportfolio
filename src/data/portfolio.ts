@@ -31,12 +31,9 @@ export const codingProfiles = [
   */
 ];
 
-/** Stats stay empty until you fill in real numbers — no fabricated data. */
-export const leetcodeStats: { label: string; value: string }[] = [
-  { label: "Problems solved", value: "22" },
-  { label: "Current streak", value: "4" },
-  { label: "Global ranking", value: "4,247,238" },
-];
+/** LeetCode username used to fetch live public stats. Change it here only. */
+export const leetcodeUsername = "Jas22wanty";
+
 
 export const education = [
   {
