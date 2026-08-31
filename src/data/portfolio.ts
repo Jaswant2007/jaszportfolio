@@ -13,6 +13,9 @@ export const profile = {
   location: "Chennai, India",
   email: "jas22happy@gmail.com", // ← replace with your real email
   resumeUrl: "", // optional: link to a hosted resume PDF
+  /** Drop your photo in /public and set the file name here (e.g. "/profile.jpg"). */
+  photo: "/profile.jpg",
+
 };
 
 export const socials = [
