@@ -3,7 +3,8 @@ import { motion } from "motion/react";
 import { PageShell, SectionHeading } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
-import { skillGroups, codingProfiles, leetcodeStats, profile } from "@/data/portfolio";
+import { LeetCodeStats } from "@/components/LeetCodeStats";
+import { skillGroups, codingProfiles, profile } from "@/data/portfolio";
 
 export const Route = createFileRoute("/skills")({
   head: () => ({
@@ -104,29 +105,9 @@ function Skills() {
           </div>
         </Reveal>
         <Reveal delay={0.08}>
-          <div className="h-full rounded-3xl border border-border bg-card p-8">
-            <h2 className="font-display text-2xl font-semibold">LeetCode</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Daily DSA practice. Stats below update once I add my real numbers in the data file.
-            </p>
-            <dl className="mt-6 grid grid-cols-3 gap-3">
-              {leetcodeStats.map((s) => (
-                <div key={s.label} className="rounded-2xl bg-secondary p-4 text-center">
-                  <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">{s.label}</dt>
-                  <dd className="mt-1 font-display text-xl font-semibold">{s.value}</dd>
-                </div>
-              ))}
-            </dl>
-            <a
-              href={codingProfiles[1]!.href}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="mt-6 inline-flex rounded-full border border-border px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-secondary"
-            >
-              LeetCode profile ↗
-            </a>
-          </div>
+          <LeetCodeStats />
         </Reveal>
+
       </section>
 
       <p className="shell pb-6 text-sm text-muted-foreground">
