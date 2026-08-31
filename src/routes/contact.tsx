@@ -29,6 +29,9 @@ function Contact() {
   const [values, setValues] = useState({ name: "", email: "", subject: "", message: "" });
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [failed, setFailed] = useState<string | null>(null);
+  const send = useServerFn(sendContactEmail);
 
   const set = (k: keyof typeof values) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setValues((v) => ({ ...v, [k]: e.target.value }));
@@ -43,28 +46,41 @@ function Contact() {
     return Object.keys(next).length === 0;
   };
 
-const onSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!validate()) return;
+  const mailtoFallback = () => {
+    const href = `mailto:${profile.email}?subject=${encodeURIComponent(values.subject)}&body=${encodeURIComponent(
+      `${values.message}\n\n— ${values.name} (${values.email})`,
+    )}`;
+    window.location.href = href;
+  };
 
-  const { error } = await supabaseClient
-    .from("messages")
-    .insert([
-      {
-        name: values.name,
-        email: values.email,
-        subject: values.subject,
-        message: values.message,
-      },
-    ]);
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
 
-  if (error) {
-    console.error("Error saving message:", error);
-    return;
-  }
+    setSending(true);
+    setFailed(null);
 
-  setSent(true);
-};
+    try {
+      const result = await send({ data: values });
+      if (!result.ok) {
+        setFailed(result.error ?? "Could not send the message right now.");
+        return;
+      }
+      setSent(true);
+      setValues({ name: "", email: "", subject: "", message: "" });
+
+      // Best-effort archive of the message; never blocks the email.
+      void supabaseClient.from("messages").insert([values]).then(({ error }) => {
+        if (error) console.error("Error saving message:", error);
+      });
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setFailed("Could not send the message right now.");
+    } finally {
+      setSending(false);
+    }
+  };
+
 
   const field = "mt-2 w-full rounded-2xl border border-border bg-card px-4 py-3 text-sm outline-none transition-shadow focus:ring-2 focus:ring-ring";
 
