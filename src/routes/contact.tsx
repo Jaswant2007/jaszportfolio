@@ -91,7 +91,7 @@ function Contact() {
           <SectionHeading
             eyebrow="Contact"
             title="Let's connect."
-            description="Have an idea, an opportunity or just want to say hello? Fill the form and your email client will open with the message ready to send."
+            description="Have an idea, an opportunity or just want to say hello? Send the form and your message lands directly in my inbox."
           />
           <Reveal delay={0.12} className="mt-8 space-y-3">
             {socials.map((s) => (
