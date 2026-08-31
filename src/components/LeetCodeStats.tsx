@@ -53,9 +53,22 @@ export function LeetCodeStats() {
       )}
 
       {isError && !isPending && (
-        <p className="mt-6 text-sm text-muted-foreground" role="status" aria-live="polite">
-          Unable to load LeetCode statistics right now.
-        </p>
+        <div className="mt-6 rounded-2xl bg-secondary p-5 text-center" role="status" aria-live="polite">
+          <p className="text-sm font-medium">Live stats unavailable</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Couldn't reach the LeetCode API just now — this is usually temporary. Hit Refresh, or
+            view my latest stats directly on{" "}
+            <a
+              href={profileUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="font-medium text-primary hover:underline"
+            >
+              my LeetCode profile ↗
+            </a>
+            .
+          </p>
+        </div>
       )}
 
       {data && (
