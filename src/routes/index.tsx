@@ -120,7 +120,23 @@ function Home() {
         >
           <div className="absolute inset-6 rounded-full blur-3xl" style={{ background: "var(--gradient-hero)", opacity: 0.18 }} />
           <HeroScene className="relative h-full w-full" />
+          {profile.photo && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[52%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border border-border/70 bg-card shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)]"
+            >
+              <img
+                src={profile.photo}
+                alt={`Portrait of ${profile.fullName}`}
+                loading="eager"
+                className="h-full w-full object-cover"
+              />
+            </motion.div>
+          )}
         </motion.div>
+
       </section>
 
       <section className="shell py-16" aria-labelledby="learning-heading">
