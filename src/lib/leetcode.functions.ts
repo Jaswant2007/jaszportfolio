@@ -53,7 +53,10 @@ export const getLeetCodeStats = createServerFn({ method: "GET" })
       body: JSON.stringify({ query: QUERY, variables: { username: data.username } }),
     });
 
-    if (!res.ok) throw new Error(`LeetCode API responded with ${res.status}`);
+    if (!res.ok) {
+      console.error(`LeetCode stats fetch failed for "${data.username}": HTTP ${res.status}`);
+      throw new Error(`LeetCode API responded with ${res.status}`);
+    }
 
     const json = (await res.json()) as {
       data?: {
@@ -71,10 +74,16 @@ export const getLeetCodeStats = createServerFn({ method: "GET" })
       errors?: { message: string }[];
     };
 
-    if (json.errors?.length) throw new Error(json.errors[0]!.message);
+    if (json.errors?.length) {
+      console.error(`LeetCode GraphQL errors for "${data.username}":`, json.errors);
+      throw new Error(json.errors[0]!.message);
+    }
 
     const user = json.data?.matchedUser;
-    if (!user) throw new Error("LeetCode profile not found");
+    if (!user) {
+      console.error(`LeetCode profile not found for username "${data.username}"`);
+      throw new Error("LeetCode profile not found");
+    }
 
     const buckets = user.submitStatsGlobal?.acSubmissionNum ?? [];
     const count = (difficulty: string) =>
