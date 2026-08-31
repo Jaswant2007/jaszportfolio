@@ -1,9 +1,12 @@
 import { supabaseClient } from "../lib/supabaseClients";
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { PageShell, SectionHeading } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
+import { sendContactEmail } from "@/lib/contact.functions";
 import { profile, socials } from "@/data/portfolio";
+
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
