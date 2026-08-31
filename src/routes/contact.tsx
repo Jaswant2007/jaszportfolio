@@ -145,15 +145,28 @@ function Contact() {
 
             <button
               type="submit"
-              className="mt-7 w-full rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground lift"
+              disabled={sending}
+              className="mt-7 w-full rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground lift disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Send message
+              {sending ? "Sending…" : "Send message"}
             </button>
             <p aria-live="polite" className="mt-4 text-center text-xs text-muted-foreground">
               {sent
-                ? "Your email app should have opened with the message ready to send."
-                : `Messages go straight to ${profile.email}.`}
+                ? "Thanks — your message has been delivered to my inbox."
+                : failed
+                  ? failed
+                  : `Messages go straight to ${profile.email}.`}
             </p>
+            {failed && (
+              <button
+                type="button"
+                onClick={mailtoFallback}
+                className="mt-3 w-full rounded-full border border-border bg-card px-6 py-3 text-xs font-semibold lift"
+              >
+                Send via your email app instead
+              </button>
+            )}
+
           </form>
         </Reveal>
       </section>
