@@ -16,7 +16,7 @@ const escapeHtml = (value: string) =>
     .replace(/'/g, "&#39;");
 
 export const sendContactEmail = createServerFn({ method: "POST" })
-  .inputValidator((data: ContactInput): ContactInput => {
+  .validator((data: ContactInput): ContactInput => {
     const name = String(data?.name ?? "").trim();
     const email = String(data?.email ?? "").trim();
     const subject = String(data?.subject ?? "").trim();
