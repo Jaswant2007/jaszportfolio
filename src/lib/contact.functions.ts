@@ -1,11 +1,14 @@
 import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
 
-export type ContactInput = {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-};
+const contactSchema = z.object({
+  name: z.string().trim().min(2, "Please enter your name.").max(120),
+  email: z.string().trim().email("Please enter a valid email address.").max(200),
+  subject: z.string().trim().min(3, "Please add a short subject.").max(200),
+  message: z.string().trim().min(10, "Message should be at least 10 characters.").max(5000),
+});
+
+export type ContactInput = z.infer<typeof contactSchema>;
 
 const escapeHtml = (value: string) =>
   value
@@ -16,29 +19,16 @@ const escapeHtml = (value: string) =>
     .replace(/'/g, "&#39;");
 
 export const sendContactEmail = createServerFn({ method: "POST" })
-  .validator((data: ContactInput): ContactInput => {
-    const name = String(data?.name ?? "").trim();
-    const email = String(data?.email ?? "").trim();
-    const subject = String(data?.subject ?? "").trim();
-    const message = String(data?.message ?? "").trim();
-
-    if (name.length < 2) throw new Error("Please enter your name.");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("Please enter a valid email address.");
-    if (subject.length < 3) throw new Error("Please add a short subject.");
-    if (message.length < 10) throw new Error("Message should be at least 10 characters.");
-
-    return {
-      name: name.slice(0, 120),
-      email: email.slice(0, 200),
-      subject: subject.slice(0, 200),
-      message: message.slice(0, 5000),
-    };
-  })
+  .inputValidator((data: ContactInput) => contactSchema.parse(data))
   .handler(async ({ data }) => {
     const apiKey = process.env["RESEND_API_KEY"];
-    if (!apiKey) {
-      console.error("[contact] RESEND_API_KEY is not configured");
-      return { ok: false as const, error: "Email service is not configured." };
+    const lovableApiKey = process.env["LOVABLE_API_KEY"];
+    if (!apiKey || !lovableApiKey) {
+      console.error("[contact] Email connector credentials are unavailable", {
+        hasConnectionKey: Boolean(apiKey),
+        hasLovableApiKey: Boolean(lovableApiKey),
+      });
+      return { ok: false as const, error: "Email delivery is temporarily unavailable. Please try again shortly." };
     }
 
     const to = "jas22happy@gmail.com";
@@ -55,11 +45,12 @@ export const sendContactEmail = createServerFn({ method: "POST" })
     `;
 
     try {
-      const response = await fetch("https://api.resend.com/emails", {
+      const response = await fetch("https://connector-gateway.lovable.dev/resend/emails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${lovableApiKey}`,
+          "X-Connection-Api-Key": apiKey,
         },
         body: JSON.stringify({
           from: "Portfolio Contact <onboarding@resend.dev>",
@@ -73,12 +64,12 @@ export const sendContactEmail = createServerFn({ method: "POST" })
       if (!response.ok) {
         const body = await response.text();
         console.error(`[contact] Resend request failed [${response.status}]: ${body}`);
-        return { ok: false as const, error: "Could not send the message right now." };
+        return { ok: false as const, error: "Your message could not be delivered. Please try again or use the email-app option." };
       }
 
       return { ok: true as const };
     } catch (error) {
       console.error("[contact] Unexpected error sending email:", error);
-      return { ok: false as const, error: "Could not send the message right now." };
+      return { ok: false as const, error: "Your message could not be delivered. Please try again or use the email-app option." };
     }
   });
