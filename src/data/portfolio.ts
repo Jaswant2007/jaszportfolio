@@ -8,6 +8,7 @@ import portraitAsset from "@/assets/jaswant-portrait.webp.asset.json";
 export const profile = {
   name: "Jaswant Y",
   fullName: "Jaswant Yuvarajan",
+  avatar: "/profile.jpg",
   role: "B.Tech CSE Student @ AVV Chennai",
   tagline:"Translating core Data Structures, OOP, and modern software principles into responsive web applications.",
   intro:

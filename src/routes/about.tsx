@@ -25,12 +25,25 @@ function About() {
   return (
     <PageShell variant="curtain">
       <section className="shell pb-14">
-        <SectionHeading eyebrow="About" title="A student who ships." description={profile.intro} />
+        <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+          <SectionHeading eyebrow="About" title="A student who ships." description={profile.intro} />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="relative mx-auto lg:mx-0 p-2 rounded-3xl border border-border bg-card shadow-xl"
+          >
+            <img
+              src={profile.avatar}
+              alt={profile.fullName}
+              className="h-48 w-48 rounded-2xl object-cover"
+            />
+          </motion.div>
+        </div>
         <Reveal delay={0.15} className="mt-8 grid gap-4 sm:grid-cols-3">
           {[
             { k: "Based in", v: profile.location },
-            { k: "Focus", v: [" Building Real Projects",
-                              "        Problem Solving / DSA"] },
+            { k: "Focus", v: "Building Web Apps & Problem Solving (DSA)" },
             { k: "Degree", v: "B.Tech CSE" },
           ].map((s) => (
             <div key={s.k} className="rounded-3xl glass p-6">

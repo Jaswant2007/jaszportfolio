@@ -67,11 +67,19 @@ function Projects() {
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               >
                 <TiltCard className="h-full rounded-3xl border border-border bg-card p-7" intensity={12}>
-                  <div
-                    aria-hidden
-                    className="mb-5 h-36 rounded-2xl"
-                    style={{ background: "var(--gradient-hero)", opacity: 0.18 }}
-                  />
+                  {p.image ? (
+                    <img
+                      src={p.image}
+                      alt={p.title}
+                      className="mb-5 h-44 w-full object-cover rounded-2xl border border-border/50"
+                    />
+                  ) : (
+                    <div
+                      aria-hidden
+                      className="mb-5 h-36 rounded-2xl"
+                      style={{ background: "var(--gradient-hero)", opacity: 0.18 }}
+                    />
+                  )}
                   <span className="text-xs font-semibold uppercase tracking-widest text-primary">{p.category}</span>
                   <h2 className="mt-2 font-display text-xl font-semibold">{p.title}</h2>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.description}</p>

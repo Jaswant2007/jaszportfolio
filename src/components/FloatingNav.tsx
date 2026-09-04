@@ -10,9 +10,17 @@ export function FloatingNav() {
   return (
     <header className="fixed inset-x-0 top-4 z-50 px-4">
       <nav aria-label="Main" className="mx-auto flex max-w-4xl items-center justify-between gap-4 rounded-full glass px-4 py-2.5">
-        <Link to="/" className="flex items-center gap-2 rounded-full px-2 py-1 font-display text-sm font-semibold">
-          <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: "var(--gradient-hero)" }} />
-          {profile.name}
+        <Link to="/" className="flex items-center gap-2.5 rounded-full px-2 py-1 font-display text-sm font-semibold transition-opacity hover:opacity-90">
+          <img
+            src={profile.avatar}
+            alt={profile.fullName}
+            className="h-7 w-7 rounded-full object-cover ring-2 ring-primary/40"
+            onError={(e) => {
+              // fallback hide image if broken
+              e.currentTarget.style.display = "none";
+            }}
+          />
+          <span>{profile.name}</span>
         </Link>
 
         <ul className="hidden items-center gap-1 md:flex">

@@ -116,25 +116,21 @@ function Home() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto aspect-square w-full max-w-[26rem]"
+          className="relative mx-auto aspect-square w-full max-w-[26rem] flex items-center justify-center"
         >
-          <div className="absolute inset-6 rounded-full blur-3xl" style={{ background: "var(--gradient-hero)", opacity: 0.18 }} />
-          <HeroScene className="relative h-full w-full" />
-          {profile.photo && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[52%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border border-border/70 bg-card shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)]"
-            >
-              <img
-                src={profile.photo}
-                alt={`Portrait of ${profile.fullName}`}
-                loading="eager"
-                className="h-full w-full object-cover"
-              />
-            </motion.div>
-          )}
+          <div className="absolute inset-0 rounded-full blur-3xl" style={{ background: "var(--gradient-hero)", opacity: 0.25 }} />
+          <HeroScene className="absolute inset-0 h-full w-full pointer-events-none opacity-60" />
+          <div className="relative z-10 p-2.5 rounded-full border border-primary/30 bg-card/60 backdrop-blur-xl shadow-2xl shadow-primary/20">
+            <img
+              src={profile.avatar || profile.photo || "/profile.jpg"}
+              alt={profile.fullName}
+              className="h-56 w-56 sm:h-64 sm:w-64 rounded-full object-cover shadow-inner transition-transform duration-500 hover:scale-[1.03]"
+            />
+            <div className="absolute bottom-2 right-4 flex items-center gap-1.5 rounded-full bg-background/90 border border-border px-3 py-1 text-xs font-semibold text-foreground shadow-lg backdrop-blur-md">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Available</span>
+            </div>
+          </div>
         </motion.div>
 
       </section>
