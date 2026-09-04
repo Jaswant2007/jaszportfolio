@@ -3,6 +3,8 @@
  * Edit everything about the portfolio from this single file.
  */
 
+import portraitAsset from "@/assets/jaswant-portrait.webp.asset.json";
+
 export const profile = {
   name: "Jaswant Y",
   fullName: "Jaswant Yuvarajan",
@@ -13,8 +15,7 @@ export const profile = {
   location: "Chennai, India",
   email: "jas22happy@gmail.com", // ← replace with your real email
   resumeUrl: "", // optional: link to a hosted resume PDF
-  /** Drop your photo in /public and set the file name here (e.g. "/profile.jpg"). */
-  photo: "/profile.jpg",
+  photo: portraitAsset.url,
 
 };
 

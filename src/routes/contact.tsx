@@ -1,4 +1,3 @@
-import { supabaseClient } from "../lib/supabaseClients";
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
@@ -68,11 +67,6 @@ function Contact() {
       }
       setSent(true);
       setValues({ name: "", email: "", subject: "", message: "" });
-
-      // Best-effort archive of the message; never blocks the email.
-      void supabaseClient.from("messages").insert([values]).then(({ error }) => {
-        if (error) console.error("Error saving message:", error);
-      });
     } catch (error) {
       console.error("Error sending message:", error);
       setFailed("Could not send the message right now.");
