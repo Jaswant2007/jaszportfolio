@@ -21,15 +21,14 @@ const escapeHtml = (value: string) =>
 export const sendContactEmail = createServerFn({ method: "POST" })
   .inputValidator((data: ContactInput) => contactSchema.parse(data))
   .handler(async ({ data }) => {
-    const apiKey = process.env["RESEND_API_KEY"];
+    const apiKey =
+      process.env["RESEND_API_KEY"] ?? process.env["RESEND_API_KEY_2"] ?? process.env["RESEND_KEY"];
     const lovableApiKey = process.env["LOVABLE_API_KEY"];
-    if (!apiKey || !lovableApiKey) {
-      console.error("[contact] Email connector credentials are unavailable", {
-        hasConnectionKey: Boolean(apiKey),
-        hasLovableApiKey: Boolean(lovableApiKey),
-      });
-      return { ok: false as const, error: "Email delivery is temporarily unavailable. Please try again shortly." };
+    if (!apiKey) {
+      console.error("[contact] No Resend credential is available in the runtime environment.");
+      return { ok: false as const, error: "Message could not be sent right now. Please try again shortly." };
     }
+
 
     const to = "jas22happy@gmail.com";
     const html = `
@@ -44,32 +43,50 @@ export const sendContactEmail = createServerFn({ method: "POST" })
       </div>
     `;
 
-    try {
-      const response = await fetch("https://connector-gateway.lovable.dev/resend/emails", {
-        method: "POST",
+    const payload = JSON.stringify({
+      from: "Portfolio Contact <onboarding@resend.dev>",
+      to: [to],
+      reply_to: data.email,
+      subject: `[Portfolio] ${data.subject}`,
+      html,
+    });
+
+    const attempts: Array<{ label: string; url: string; headers: Record<string, string> }> = [];
+    if (lovableApiKey) {
+      attempts.push({
+        label: "gateway",
+        url: "https://connector-gateway.lovable.dev/resend/emails",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${lovableApiKey}`,
           "X-Connection-Api-Key": apiKey,
         },
-        body: JSON.stringify({
-          from: "Portfolio Contact <onboarding@resend.dev>",
-          to: [to],
-          reply_to: data.email,
-          subject: `[Portfolio] ${data.subject}`,
-          html,
-        }),
       });
-
-      if (!response.ok) {
-        const body = await response.text();
-        console.error(`[contact] Resend request failed [${response.status}]: ${body}`);
-        return { ok: false as const, error: "Your message could not be delivered. Please try again or use the email-app option." };
-      }
-
-      return { ok: true as const };
-    } catch (error) {
-      console.error("[contact] Unexpected error sending email:", error);
-      return { ok: false as const, error: "Your message could not be delivered. Please try again or use the email-app option." };
     }
+    if (apiKey.startsWith("re_")) {
+      attempts.push({
+        label: "resend-direct",
+        url: "https://api.resend.com/emails",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+      });
+    }
+
+    for (const attempt of attempts) {
+      try {
+        const response = await fetch(attempt.url, { method: "POST", headers: attempt.headers, body: payload });
+        if (response.ok) return { ok: true as const };
+        const body = await response.text();
+        console.error(`[contact] ${attempt.label} send failed [${response.status}]: ${body}`);
+      } catch (error) {
+        console.error(`[contact] ${attempt.label} send threw:`, error);
+      }
+    }
+
+    return {
+      ok: false as const,
+      error: "Message could not be sent right now. Please try again in a moment.",
+    };
   });
