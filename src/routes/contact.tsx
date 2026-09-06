@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { PageShell, SectionHeading } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
+import { toast } from "sonner";
 import { sendContactEmail } from "@/lib/contact.functions";
 import { profile, socials } from "@/data/portfolio";
 
@@ -45,13 +46,6 @@ function Contact() {
     return Object.keys(next).length === 0;
   };
 
-  const mailtoFallback = () => {
-    const href = `mailto:${profile.email}?subject=${encodeURIComponent(values.subject)}&body=${encodeURIComponent(
-      `${values.message}\n\n— ${values.name} (${values.email})`,
-    )}`;
-    window.location.href = href;
-  };
-
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
@@ -62,14 +56,18 @@ function Contact() {
     try {
       const result = await send({ data: values });
       if (!result.ok) {
-        setFailed(result.error ?? "Could not send the message right now.");
+        const message = result.error ?? "Could not send the message right now.";
+        setFailed(message);
+        toast.error(message);
         return;
       }
       setSent(true);
+      toast.success("Your Response was sent!");
       setValues({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
       console.error("Error sending message:", error);
       setFailed("Could not send the message right now.");
+      toast.error("Could not send the message right now.");
     } finally {
       setSending(false);
     }
@@ -151,15 +149,6 @@ function Contact() {
                   ? failed
                   : `Messages go straight to ${profile.email}.`}
             </p>
-            {failed && (
-              <button
-                type="button"
-                onClick={mailtoFallback}
-                className="mt-3 w-full rounded-full border border-border bg-card px-6 py-3 text-xs font-semibold lift"
-              >
-                Send via your email app instead
-              </button>
-            )}
 
           </form>
         </Reveal>
