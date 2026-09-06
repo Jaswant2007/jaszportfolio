@@ -21,15 +21,14 @@ const escapeHtml = (value: string) =>
 export const sendContactEmail = createServerFn({ method: "POST" })
   .inputValidator((data: ContactInput) => contactSchema.parse(data))
   .handler(async ({ data }) => {
-    const apiKey = process.env["RESEND_API_KEY"];
+    const apiKey =
+      process.env["RESEND_API_KEY"] ?? process.env["RESEND_API_KEY_2"] ?? process.env["RESEND_KEY"];
     const lovableApiKey = process.env["LOVABLE_API_KEY"];
-    if (!apiKey || !lovableApiKey) {
-      console.error("[contact] Email connector credentials are unavailable", {
-        hasConnectionKey: Boolean(apiKey),
-        hasLovableApiKey: Boolean(lovableApiKey),
-      });
-      return { ok: false as const, error: "Email delivery is temporarily unavailable. Please try again shortly." };
+    if (!apiKey) {
+      console.error("[contact] No Resend credential is available in the runtime environment.");
+      return { ok: false as const, error: "Message could not be sent right now. Please try again shortly." };
     }
+
 
     const to = "jas22happy@gmail.com";
     const html = `
