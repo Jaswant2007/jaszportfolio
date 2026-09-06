@@ -16,6 +16,7 @@ import { ParticleField } from "@/components/ParticleField";
 import { CustomCursor } from "@/components/CustomCursor";
 import { FloatingNav } from "@/components/FloatingNav";
 import { SiteFooter } from "@/components/SiteFooter";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -147,6 +148,7 @@ function RootComponent() {
         <Outlet />
       </div>
       <SiteFooter />
+      <Toaster position="top-center" richColors />
     </QueryClientProvider>
   );
 }
