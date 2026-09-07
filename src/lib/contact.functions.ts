@@ -21,11 +21,10 @@ const escapeHtml = (value: string) =>
 export const sendContactEmail = createServerFn({ method: "POST" })
   .validator((data: ContactInput) => contactSchema.parse(data))
   .handler(async ({ data }) => {
-    const apiKey =
-      process.env["RESEND_API_KEY"] ?? process.env["RESEND_API_KEY_2"] ?? process.env["RESEND_KEY"];
+    const apiKey = process.env["RESEND_API_KEY"];
     const lovableApiKey = process.env["LOVABLE_API_KEY"];
-    if (!apiKey) {
-      console.error("[contact] No Resend credential is available in the runtime environment.");
+    if (!apiKey || !lovableApiKey) {
+      console.error("[contact] Email delivery credentials are unavailable in the runtime environment.");
       return { ok: false as const, error: "Message could not be sent right now. Please try again shortly." };
     }
 
@@ -51,37 +50,33 @@ export const sendContactEmail = createServerFn({ method: "POST" })
       html,
     });
 
-    const attempts: Array<{ label: string; url: string; headers: Record<string, string> }> = [];
-    if (lovableApiKey) {
-      attempts.push({
-        label: "gateway",
-        url: "https://connector-gateway.lovable.dev/resend/emails",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${lovableApiKey}`,
-          "X-Connection-Api-Key": apiKey,
-        },
-      });
-    }
-    if (apiKey.startsWith("re_")) {
-      attempts.push({
-        label: "resend-direct",
-        url: "https://api.resend.com/emails",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-      });
-    }
+    const url = "https://connector-gateway.lovable.dev/resend/emails";
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${lovableApiKey}`,
+      "X-Connection-Api-Key": apiKey,
+    };
 
-    for (const attempt of attempts) {
+    for (let attempt = 0; attempt < 3; attempt += 1) {
       try {
-        const response = await fetch(attempt.url, { method: "POST", headers: attempt.headers, body: payload });
+        const response = await fetch(url, { method: "POST", headers, body: payload });
         if (response.ok) return { ok: true as const };
+
         const body = await response.text();
-        console.error(`[contact] ${attempt.label} send failed [${response.status}]: ${body}`);
+        console.error(`[contact] send failed [${response.status}]: ${body}`);
+
+        const retryable = response.status === 429 || response.status >= 500;
+        if (!retryable || attempt === 2) break;
+
+        const retryAfter = Number(response.headers.get("Retry-After"));
+        const delayMs = Number.isFinite(retryAfter) && retryAfter > 0
+          ? retryAfter * 1000
+          : 750 * 2 ** attempt;
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
       } catch (error) {
-        console.error(`[contact] ${attempt.label} send threw:`, error);
+        console.error(`[contact] send attempt ${attempt + 1} threw:`, error);
+        if (attempt === 2) break;
+        await new Promise((resolve) => setTimeout(resolve, 750 * 2 ** attempt));
       }
     }
 
