@@ -19,7 +19,7 @@ const escapeHtml = (value: string) =>
     .replace(/'/g, "&#39;");
 
 export const sendContactEmail = createServerFn({ method: "POST" })
-  .inputValidator((data: ContactInput) => contactSchema.parse(data))
+  .validator((data: ContactInput) => contactSchema.parse(data))
   .handler(async ({ data }) => {
     const apiKey =
       process.env["RESEND_API_KEY"] ?? process.env["RESEND_API_KEY_2"] ?? process.env["RESEND_KEY"];
