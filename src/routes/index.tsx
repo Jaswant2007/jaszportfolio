@@ -5,6 +5,7 @@ import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
 import { profile, projects, currentlyLearning, codingProfiles } from "@/data/portfolio";
+import { pageSeo, personJsonLd, websiteJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () =>
