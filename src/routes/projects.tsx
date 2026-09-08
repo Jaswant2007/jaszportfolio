@@ -29,7 +29,7 @@ function Projects() {
       <section className="shell pb-16">
         <SectionHeading
           eyebrow="Projects"
-          title="Things I've built."
+          title="Projects by Jaswant Yuvarajan"
           description="Course work, experiments and side projects. Hover a card to tilt it in 3D; filter by category below."
         />
 

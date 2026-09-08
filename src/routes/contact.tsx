@@ -6,6 +6,7 @@ import { Reveal } from "@/components/Reveal";
 import { toast } from "sonner";
 import { sendContactEmail } from "@/lib/contact.functions";
 import { profile, socials } from "@/data/portfolio";
+import { pageSeo } from "@/lib/seo";
 
 
 export const Route = createFileRoute("/contact")({

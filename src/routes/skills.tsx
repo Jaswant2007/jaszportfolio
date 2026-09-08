@@ -24,8 +24,8 @@ function Skills() {
       <section className="shell pb-14">
         <SectionHeading
           eyebrow="Skills"
-          title="What I work with."
-          description="A snapshot of the languages, tools and areas I use — growing steadily with every project."
+          title="Skills of Jaswant Yuvarajan"
+          description="Languages, frontend, backend, databases and tools I actually use — organised the way I work as a full-stack developer."
         />
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {skillGroups.map((g, gi) => (
