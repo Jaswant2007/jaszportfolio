@@ -5,19 +5,16 @@ import { Reveal } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
 import { LeetCodeStats } from "@/components/LeetCodeStats";
 import { skillGroups, codingProfiles, profile } from "@/data/portfolio";
+import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/skills")({
-  head: () => ({
-    meta: [
-      { title: "Skills & Coding Profiles — Jaswant" },
-      {
-        name: "description",
-        content: "Programming, web, AI/ML and tooling skills plus GitHub, LeetCode and other coding profiles.",
-      },
-      { property: "og:title", content: "Skills & Coding Profiles — Jaswant" },
-      { property: "og:description", content: "Interactive skill nodes and links to my coding profiles." },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      path: "/skills",
+      title: "Skills | Jaswant Yuvarajan",
+      description:
+        "Languages, frontend, backend, database and tooling skills of Jaswant Yuvarajan, full-stack developer and CSE student, plus live GitHub and LeetCode profiles.",
+    }),
   component: Skills,
 });
 

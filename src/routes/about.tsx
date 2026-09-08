@@ -3,21 +3,17 @@ import { motion } from "motion/react";
 import { PageShell, SectionHeading } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
-import { profile, education, currentlyLearning, certificates } from "@/data/portfolio";
+import { profile, education, currentlyLearning, certificates, codingProfiles, socials } from "@/data/portfolio";
+import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About Jaswant — CSE Student & Developer" },
-      {
-        name: "description",
-        content:
-          "About Jaswant: B.Tech CSE at Amrita Vishwa Vidyapeetham Chennai, academic journey, current learning and certificates.",
-      },
-      { property: "og:title", content: "About Jaswant" },
-      { property: "og:description", content: "Academic journey, interests, learning path and certificates." },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      path: "/about",
+      title: "About Jaswant Yuvarajan | CSE Student at Amrita",
+      description:
+        "About Jaswant Yuvarajan — B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai, full-stack developer, with his academic journey, learning path and certificates.",
+    }),
   component: About,
 });
 

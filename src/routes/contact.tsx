@@ -9,17 +9,13 @@ import { profile, socials } from "@/data/portfolio";
 
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact Jaswant — Let's Connect" },
-      {
-        name: "description",
-        content: "Get in touch with Jaswant for internships, collaborations or project ideas.",
-      },
-      { property: "og:title", content: "Contact Jaswant" },
-      { property: "og:description", content: "Send a message — I usually reply within a day or two." },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      path: "/contact",
+      title: "Contact Jaswant Yuvarajan | Full-Stack Developer",
+      description:
+        "Get in touch with Jaswant Yuvarajan, full-stack developer and CSE student at Amrita Vishwa Vidyapeetham, Chennai, for internships, collaborations or project ideas.",
+    }),
   component: Contact,
 });
 

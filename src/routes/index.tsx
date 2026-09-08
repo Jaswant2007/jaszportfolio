@@ -121,7 +121,10 @@ function Home() {
           <div className="relative z-10 p-2.5 rounded-full border border-primary/30 bg-card/60 backdrop-blur-xl shadow-2xl shadow-primary/20">
             <img
               src={profile.avatar || profile.photo || "/profile.jpg"}
-              alt={profile.fullName}
+              alt={`Portrait of ${profile.fullName}, full-stack developer and CSE student`}
+              loading="eager"
+              width={256}
+              height={256}
               className="h-56 w-56 sm:h-64 sm:w-64 rounded-full object-cover shadow-inner transition-transform duration-500 hover:scale-[1.03]"
             />
             <div className="absolute bottom-2 right-4 flex items-center gap-1.5 rounded-full bg-background/90 border border-border px-3 py-1 text-xs font-semibold text-foreground shadow-lg backdrop-blur-md">
