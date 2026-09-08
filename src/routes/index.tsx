@@ -35,18 +35,21 @@ function Home() {
             Available for internships & collaborations
           </motion.p>
 
-          <h1 className="mt-6 font-display text-[clamp(2.6rem,7vw,4.6rem)] font-semibold leading-[1.05]">
-            <span className="sr-only">{profile.fullName}</span>
+          <h1 className="mt-6 font-display text-[clamp(2.2rem,6vw,4.1rem)] font-semibold leading-[1.05]">
+            <span className="sr-only">Hi, I'm {profile.fullName} — {profile.headline}</span>
+            <span aria-hidden className="block text-[0.5em] font-medium text-muted-foreground">
+              Hi, I'm
+            </span>
             <span aria-hidden className="block">
-              {words[0]!.map((c, i) => (
+              {nameLetters.map((c, i) => (
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, y: 40, rotate: 6 }}
                   animate={{ opacity: 1, y: 0, rotate: 0 }}
-                  transition={{ delay: 0.15 + i * 0.05, ease: [0.22, 1, 0.36, 1], duration: 0.7 }}
+                  transition={{ delay: 0.15 + i * 0.04, ease: [0.22, 1, 0.36, 1], duration: 0.7 }}
                   className="inline-block"
                 >
-                  {c}
+                  {c === " " ? "\u00A0" : c}
                 </motion.span>
               ))}
             </span>
@@ -54,10 +57,10 @@ function Home() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="block gradient-text"
+              className="block gradient-text text-[0.72em]"
               aria-hidden
             >
-              builds for the web.
+              {profile.headline}
             </motion.span>
           </h1>
 
@@ -67,7 +70,7 @@ function Home() {
             transition={{ delay: 0.65, duration: 0.7 }}
             className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground"
           >
-            {profile.role} · {profile.tagline}
+            {profile.identity}
           </motion.p>
 
           <motion.div
