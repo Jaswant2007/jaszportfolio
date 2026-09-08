@@ -5,31 +5,26 @@ import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
 import { profile, projects, currentlyLearning, codingProfiles } from "@/data/portfolio";
+import { pageSeo, personJsonLd, websiteJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Jaswant — Developer Portfolio" },
-      {
-        name: "description",
-        content:
-          "Portfolio of Jaswant, B.Tech CSE student at Amrita Vishwa Vidyapeetham Chennai — projects, skills, articles and contact.",
-      },
-      { property: "og:title", content: "Jaswant Yuvarajan — Developer Portfolio" },
-      {
-        property: "og:description",
-        content: "Interactive portfolio: projects, skills, learning journey and articles.",
-      },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      path: "/",
+      title: "Jaswant Yuvarajan | CSE Student & Full-Stack Developer",
+      description:
+        "Jaswant Yuvarajan — B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai, and full-stack developer building practical web applications.",
+    }),
   component: Home,
 });
 
-const words = ["Jaswant".split(""), []];
+const nameLetters = "Jaswant Yuvarajan".split("");
 
 function Home() {
   return (
     <PageShell variant="fade">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: personJsonLd() }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: websiteJsonLd() }} />
       <section className="shell relative grid min-h-[82vh] items-center gap-10 pb-16 lg:grid-cols-[1.15fr_1fr]">
         <div>
           <motion.p
@@ -42,18 +37,21 @@ function Home() {
             Available for internships & collaborations
           </motion.p>
 
-          <h1 className="mt-6 font-display text-[clamp(2.6rem,7vw,4.6rem)] font-semibold leading-[1.05]">
-            <span className="sr-only">{profile.fullName}</span>
+          <h1 className="mt-6 font-display text-[clamp(2.2rem,6vw,4.1rem)] font-semibold leading-[1.05]">
+            <span className="sr-only">Hi, I'm {profile.fullName} — {profile.headline}</span>
+            <span aria-hidden className="block text-[0.5em] font-medium text-muted-foreground">
+              Hi, I'm
+            </span>
             <span aria-hidden className="block">
-              {words[0]!.map((c, i) => (
+              {nameLetters.map((c, i) => (
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, y: 40, rotate: 6 }}
                   animate={{ opacity: 1, y: 0, rotate: 0 }}
-                  transition={{ delay: 0.15 + i * 0.05, ease: [0.22, 1, 0.36, 1], duration: 0.7 }}
+                  transition={{ delay: 0.15 + i * 0.04, ease: [0.22, 1, 0.36, 1], duration: 0.7 }}
                   className="inline-block"
                 >
-                  {c}
+                  {c === " " ? "\u00A0" : c}
                 </motion.span>
               ))}
             </span>
@@ -61,10 +59,10 @@ function Home() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="block gradient-text"
+              className="block gradient-text text-[0.72em]"
               aria-hidden
             >
-              builds for the web.
+              {profile.headline}
             </motion.span>
           </h1>
 
@@ -74,7 +72,7 @@ function Home() {
             transition={{ delay: 0.65, duration: 0.7 }}
             className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground"
           >
-            {profile.role} · {profile.tagline}
+            {profile.identity}
           </motion.p>
 
           <motion.div
@@ -123,7 +121,10 @@ function Home() {
           <div className="relative z-10 p-2.5 rounded-full border border-primary/30 bg-card/60 backdrop-blur-xl shadow-2xl shadow-primary/20">
             <img
               src={profile.avatar || profile.photo || "/profile.jpg"}
-              alt={profile.fullName}
+              alt={`Portrait of ${profile.fullName}, full-stack developer and CSE student`}
+              loading="eager"
+              width={256}
+              height={256}
               className="h-56 w-56 sm:h-64 sm:w-64 rounded-full object-cover shadow-inner transition-transform duration-500 hover:scale-[1.03]"
             />
             <div className="absolute bottom-2 right-4 flex items-center gap-1.5 rounded-full bg-background/90 border border-border px-3 py-1 text-xs font-semibold text-foreground shadow-lg backdrop-blur-md">

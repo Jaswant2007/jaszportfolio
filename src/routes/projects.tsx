@@ -4,19 +4,16 @@ import { useMemo, useState } from "react";
 import { PageShell, SectionHeading } from "@/components/PageShell";
 import { TiltCard } from "@/components/TiltCard";
 import { projects, projectCategories } from "@/data/portfolio";
+import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/projects")({
-  head: () => ({
-    meta: [
-      { title: "Projects — Jaswant" },
-      {
-        name: "description",
-        content: "Web, AI/ML, C, Java and hardware projects by Jaswant, with source code and live demos.",
-      },
-      { property: "og:title", content: "Projects — Jaswant" },
-      { property: "og:description", content: "Filterable project gallery with 3D interactive cards." },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      path: "/projects",
+      title: "Projects | Jaswant Yuvarajan — Full-Stack Developer",
+      description:
+        "Web and software projects built by Jaswant Yuvarajan, a full-stack developer and CSE student at Amrita Vishwa Vidyapeetham, Chennai — with the problem solved, technologies used, source code and live demos.",
+    }),
   component: Projects,
 });
 
@@ -32,7 +29,7 @@ function Projects() {
       <section className="shell pb-16">
         <SectionHeading
           eyebrow="Projects"
-          title="Things I've built."
+          title="Projects by Jaswant Yuvarajan"
           description="Course work, experiments and side projects. Hover a card to tilt it in 3D; filter by category below."
         />
 

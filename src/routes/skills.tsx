@@ -5,19 +5,16 @@ import { Reveal } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
 import { LeetCodeStats } from "@/components/LeetCodeStats";
 import { skillGroups, codingProfiles, profile } from "@/data/portfolio";
+import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/skills")({
-  head: () => ({
-    meta: [
-      { title: "Skills & Coding Profiles — Jaswant" },
-      {
-        name: "description",
-        content: "Programming, web, AI/ML and tooling skills plus GitHub, LeetCode and other coding profiles.",
-      },
-      { property: "og:title", content: "Skills & Coding Profiles — Jaswant" },
-      { property: "og:description", content: "Interactive skill nodes and links to my coding profiles." },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      path: "/skills",
+      title: "Skills | Jaswant Yuvarajan",
+      description:
+        "Languages, frontend, backend, database and tooling skills of Jaswant Yuvarajan, full-stack developer and CSE student, plus live GitHub and LeetCode profiles.",
+    }),
   component: Skills,
 });
 
@@ -27,8 +24,8 @@ function Skills() {
       <section className="shell pb-14">
         <SectionHeading
           eyebrow="Skills"
-          title="What I work with."
-          description="A snapshot of the languages, tools and areas I use — growing steadily with every project."
+          title="Skills of Jaswant Yuvarajan"
+          description="Languages, frontend, backend, databases and tools I actually use — organised the way I work as a full-stack developer."
         />
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {skillGroups.map((g, gi) => (

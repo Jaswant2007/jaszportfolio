@@ -3,21 +3,17 @@ import { motion } from "motion/react";
 import { PageShell, SectionHeading } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
-import { profile, education, currentlyLearning, certificates } from "@/data/portfolio";
+import { profile, education, currentlyLearning, certificates, codingProfiles, socials } from "@/data/portfolio";
+import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About Jaswant — CSE Student & Developer" },
-      {
-        name: "description",
-        content:
-          "About Jaswant: B.Tech CSE at Amrita Vishwa Vidyapeetham Chennai, academic journey, current learning and certificates.",
-      },
-      { property: "og:title", content: "About Jaswant" },
-      { property: "og:description", content: "Academic journey, interests, learning path and certificates." },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      path: "/about",
+      title: "About Jaswant Yuvarajan | CSE Student at Amrita",
+      description:
+        "About Jaswant Yuvarajan — B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai, full-stack developer, with his academic journey, learning path and certificates.",
+    }),
   component: About,
 });
 
@@ -26,7 +22,7 @@ function About() {
     <PageShell variant="curtain">
       <section className="shell pb-14">
         <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-          <SectionHeading eyebrow="About" title="A student who ships." description={profile.intro} />
+          <SectionHeading eyebrow="About" title="About Jaswant Yuvarajan" description={profile.intro} />
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -35,7 +31,10 @@ function About() {
           >
             <img
               src={profile.avatar}
-              alt={profile.fullName}
+              alt={`Portrait of ${profile.fullName}, B.Tech CSE student at Amrita Vishwa Vidyapeetham, Chennai`}
+              loading="lazy"
+              width={192}
+              height={192}
               className="h-48 w-48 rounded-2xl object-cover"
             />
           </motion.div>

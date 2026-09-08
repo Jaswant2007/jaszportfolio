@@ -3,19 +3,16 @@ import { PageShell, SectionHeading } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 import { TiltCard } from "@/components/TiltCard";
 import { articles } from "@/data/portfolio";
+import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/articles")({
-  head: () => ({
-    meta: [
-      { title: "Articles — Jaswant" },
-      {
-        name: "description",
-        content: "Technical articles and notes on Python, DSA, web development and learning in public.",
-      },
-      { property: "og:title", content: "Articles — Jaswant" },
-      { property: "og:description", content: "Notes and technical write-ups from my learning journey." },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      path: "/articles",
+      title: "Articles | Jaswant Yuvarajan — Notes on Python, DSA & Web Development",
+      description:
+        "Technical write-ups and learning notes by Jaswant Yuvarajan on Python, Data Structures & Algorithms and full-stack web development.",
+    }),
   component: Articles,
 });
 
