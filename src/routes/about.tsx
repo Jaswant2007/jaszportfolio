@@ -22,7 +22,7 @@ function About() {
     <PageShell variant="curtain">
       <section className="shell pb-14">
         <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-          <SectionHeading eyebrow="About" title="A student who ships." description={profile.intro} />
+          <SectionHeading eyebrow="About" title="About Jaswant Yuvarajan" description={profile.intro} />
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -31,7 +31,10 @@ function About() {
           >
             <img
               src={profile.avatar}
-              alt={profile.fullName}
+              alt={`Portrait of ${profile.fullName}, B.Tech CSE student at Amrita Vishwa Vidyapeetham, Chennai`}
+              loading="lazy"
+              width={192}
+              height={192}
               className="h-48 w-48 rounded-2xl object-cover"
             />
           </motion.div>
