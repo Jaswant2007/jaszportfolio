@@ -7,25 +7,17 @@ import { TiltCard } from "@/components/TiltCard";
 import { profile, projects, currentlyLearning, codingProfiles } from "@/data/portfolio";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Jaswant — Developer Portfolio" },
-      {
-        name: "description",
-        content:
-          "Portfolio of Jaswant, B.Tech CSE student at Amrita Vishwa Vidyapeetham Chennai — projects, skills, articles and contact.",
-      },
-      { property: "og:title", content: "Jaswant Yuvarajan — Developer Portfolio" },
-      {
-        property: "og:description",
-        content: "Interactive portfolio: projects, skills, learning journey and articles.",
-      },
-    ],
-  }),
+  head: () =>
+    pageSeo({
+      path: "/",
+      title: "Jaswant Yuvarajan | CSE Student & Full-Stack Developer",
+      description:
+        "Jaswant Yuvarajan — B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai, and full-stack developer building practical web applications.",
+    }),
   component: Home,
 });
 
-const words = ["Jaswant".split(""), []];
+const nameLetters = "Jaswant Yuvarajan".split("");
 
 function Home() {
   return (
