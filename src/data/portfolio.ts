@@ -6,13 +6,19 @@
 import portraitAsset from "@/assets/jaswant-portrait.webp.asset.json";
 
 export const profile = {
-  name: "Jaswant Y",
+  name: "Jaswant Yuvarajan",
   fullName: "Jaswant Yuvarajan",
   avatar: "/profile.jpg",
-  role: "B.Tech CSE Student @ AVV Chennai",
+  role: "B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai",
+  jobTitle: "Full-Stack Developer",
+  headline: "Full-Stack Developer & CSE Student",
+  seoDescription:
+    "Jaswant Yuvarajan is a B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai, working as a full-stack developer building practical web applications and strengthening Data Structures & Algorithms.",
+  identity:
+    "B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai. Full-Stack Developer focused on building practical web applications, strengthening Data Structures and Algorithms, and learning modern software development.",
   tagline:"Translating core Data Structures, OOP, and modern software principles into responsive web applications.",
   intro:
-    "I'm a Computer Science and Engineering undergraduate at Amrita Vishwa Vidyapeetham, Chennai. I enjoy turning ideas into working software — from small C programs to web apps — and I'm currently deep into Python and Data Structures & Algorithms.",
+    "I'm Jaswant Yuvarajan, a Computer Science and Engineering undergraduate at Amrita Vishwa Vidyapeetham, Chennai, and a full-stack developer in the making. I enjoy turning ideas into working software — from small C programs to complete web apps — and I'm currently deep into Python, JavaScript and Data Structures & Algorithms.",
   location: "Chennai, India",
   email: "jas22happy@gmail.com", // ← replace with your real email
   resumeUrl: "", // optional: link to a hosted resume PDF
@@ -99,10 +105,11 @@ export const certificates = [
 ];
 
 export const skillGroups = [
-  { group: "Programming", items: ["Python", "C", "Java", "JavaScript"] },
-  { group: "Web", items: ["HTML", "CSS", "Responsive UI"] },
-  //{ group: "AI / ML", items: ["NumPy", "Pandas", "ML basics"] },
-  { group: "Tools", items: ["GitHub", "VS Code"] },
+  { group: "Languages", items: ["Python", "C", "Java", "JavaScript", "SQL (basics)"] },
+  { group: "Frontend", items: ["HTML5", "CSS3", "Vanilla JavaScript", "Responsive UI"] },
+  { group: "Backend", items: ["Python scripting", "Java OOP", "REST APIs (learning)"] },
+  { group: "Databases", items: ["MySQL (coursework)", "Relational modelling"] },
+  { group: "Tools", items: ["Git", "GitHub", "VS Code", "Vercel"] },
 ];
 
 export type Project = {
