@@ -23,6 +23,8 @@ const nameLetters = "Jaswant Yuvarajan".split("");
 function Home() {
   return (
     <PageShell variant="fade">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: personJsonLd() }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: websiteJsonLd() }} />
       <section className="shell relative grid min-h-[82vh] items-center gap-10 pb-16 lg:grid-cols-[1.15fr_1fr]">
         <div>
           <motion.p
