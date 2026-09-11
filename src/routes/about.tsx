@@ -132,6 +132,27 @@ function About() {
             </Reveal>
           ))}
         </div>
+        <Reveal delay={0.08}>
+          <h2 id="profiles" className="mt-16 font-display text-3xl font-semibold">
+            Profiles & links
+          </h2>
+        </Reveal>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[...codingProfiles, ...socials.filter((s) => s.label !== "GitHub")].map((p, i) => (
+            <Reveal key={p.label + i} delay={i * 0.06}>
+              <a
+                href={p.href}
+                target={p.href.startsWith("http") ? "_blank" : undefined}
+                rel="noreferrer noopener"
+                className="flex h-full items-center justify-between rounded-3xl glass px-6 py-5 text-sm lift"
+              >
+                <span className="font-display font-semibold">{p.label}</span>
+                <span className="text-muted-foreground">↗</span>
+              </a>
+            </Reveal>
+          ))}
+        </div>
+
         <Reveal delay={0.1}>
           <Link
             to="/contact"
