@@ -18,123 +18,154 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const nameLetters = "Jaswant Yuvarajan".split("");
+const nameWords = "Jaswant Yuvarajan.".split(" ");
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 function Home() {
   return (
     <PageShell variant="fade">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: personJsonLd() }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: websiteJsonLd() }} />
-      <section className="shell relative grid min-h-[82vh] items-center gap-10 pb-16 lg:grid-cols-[1.15fr_1fr]">
-        <div>
+
+      <section className="shell section-y relative grid items-center gap-12 lg:grid-cols-12 lg:gap-20">
+        <div className="flex flex-col items-start gap-8 lg:col-span-7">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5 text-xs font-medium text-muted-foreground"
+            transition={{ delay: 0.1, duration: 0.6, ease }}
+            className="inline-flex items-center gap-2.5 rounded-full border border-primary/10 bg-accent px-4 py-2 shadow-sm"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-            Available for internships & collaborations
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+            </span>
+            <span className="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-primary">
+              Available for internships &amp; collaborations
+            </span>
           </motion.p>
 
-          <h1 className="mt-6 font-display text-[clamp(2.2rem,6vw,4.1rem)] font-semibold leading-[1.05]">
-            <span className="sr-only">Hi, I'm {profile.fullName} — {profile.headline}</span>
-            <span aria-hidden className="block text-[0.5em] font-medium text-muted-foreground">
-              Hi, I'm
-            </span>
-            <span aria-hidden className="block">
-              {nameLetters.map((c, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0, y: 40, rotate: 6 }}
-                  animate={{ opacity: 1, y: 0, rotate: 0 }}
-                  transition={{ delay: 0.15 + i * 0.04, ease: [0.22, 1, 0.36, 1], duration: 0.7 }}
-                  className="inline-block"
-                >
-                  {c === " " ? "\u00A0" : c}
-                </motion.span>
-              ))}
-            </span>
-            <motion.span
-              initial={{ opacity: 0, y: 24 }}
+          <div className="space-y-4">
+            <h1 className="font-display text-[clamp(2.4rem,5.4vw,4.25rem)] font-extrabold leading-[1.08] tracking-tight">
+              <span className="sr-only">
+                Hi, I'm {profile.fullName} — {profile.headline}
+              </span>
+              <span aria-hidden className="block">
+                {nameWords.map((w, i) => (
+                  <motion.span
+                    key={w}
+                    initial={{ opacity: 0, y: 28 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 + i * 0.09, duration: 0.7, ease }}
+                    className="mr-[0.28em] inline-block"
+                  >
+                    {w}
+                  </motion.span>
+                ))}
+              </span>
+              <motion.span
+                initial={{ opacity: 0, y: 22 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.42, duration: 0.7, ease }}
+                className="block text-primary"
+                aria-hidden
+              >
+                {profile.headline}
+              </motion.span>
+            </h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="block gradient-text text-[0.72em]"
-              aria-hidden
+              transition={{ delay: 0.58, duration: 0.7, ease }}
+              className="max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl"
             >
-              {profile.headline}
-            </motion.span>
-          </h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.65, duration: 0.7 }}
-            className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground"
-          >
-            {profile.identity}
-          </motion.p>
+              {profile.identity}
+            </motion.p>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.7 }}
-            className="mt-9 flex flex-wrap gap-3"
+            transition={{ delay: 0.72, duration: 0.7, ease }}
+            className="flex flex-wrap items-center gap-4 pt-1 sm:gap-6"
           >
             <Link
               to="/projects"
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground lift"
+              className="group inline-flex items-center gap-2 rounded-xl bg-primary px-8 py-4 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 transition-transform duration-300 hover:-translate-y-0.5"
             >
-              <span className="relative z-10">View Projects</span>
-              <span className="relative z-10 transition-transform group-hover:translate-x-1">→</span>
-              <span
-                aria-hidden
-                className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                style={{ background: "var(--gradient-hero)" }}
-              />
+              View Projects
+              <span className="transition-transform group-hover:translate-x-1">→</span>
             </Link>
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold lift"
+              className="inline-flex items-center rounded-xl border border-primary/10 bg-accent px-8 py-4 text-sm font-bold text-primary transition-colors duration-300 hover:bg-accent/70"
             >
-              Let's Connect
+              Get in Touch
             </Link>
             <a
               href={codingProfiles[0]!.href}
               target="_blank"
               rel="noreferrer noopener"
-              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
+              className="flex items-center gap-2.5 text-sm font-bold transition-colors hover:text-primary"
             >
-              View GitHub ↗
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground text-background">
+                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
+                  <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                </svg>
+              </span>
+              GitHub
             </a>
           </motion.div>
         </div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto aspect-square w-full max-w-[26rem] flex items-center justify-center"
+          transition={{ duration: 1, ease }}
+          className="flex justify-center lg:col-span-5 lg:justify-end"
         >
-          <div className="absolute inset-0 rounded-full blur-3xl" style={{ background: "var(--gradient-hero)", opacity: 0.25 }} />
-          <HeroScene className="absolute inset-0 h-full w-full pointer-events-none opacity-60" />
-          <div className="relative z-10 p-2.5 rounded-full border border-primary/30 bg-card/60 backdrop-blur-xl shadow-2xl shadow-primary/20">
-            <img
-              src={profile.avatar || profile.photo || "/profile.jpg"}
-              alt={`Portrait of ${profile.fullName}, full-stack developer and CSE student`}
-              loading="eager"
-              width={256}
-              height={256}
-              className="h-56 w-56 sm:h-64 sm:w-64 rounded-full object-cover shadow-inner transition-transform duration-500 hover:scale-[1.03]"
+          <div className="relative">
+            <div
+              aria-hidden
+              className="absolute -inset-10 rounded-full blur-3xl"
+              style={{ background: "var(--gradient-hero)", opacity: 0.14 }}
             />
-            <div className="absolute bottom-2 right-4 flex items-center gap-1.5 rounded-full bg-background/90 border border-border px-3 py-1 text-xs font-semibold text-foreground shadow-lg backdrop-blur-md">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Available</span>
+            <HeroScene className="pointer-events-none absolute -inset-6 opacity-40" />
+            <div
+              aria-hidden
+              className="absolute -inset-6 animate-[spin_26s_linear_infinite] rounded-full border-2 border-primary/10"
+            />
+            <div aria-hidden className="absolute -inset-3 rounded-full border-2 border-primary/5" />
+
+            <div className="relative h-64 w-64 overflow-hidden rounded-full border-8 border-card shadow-2xl ring-1 ring-foreground/5 md:h-80 md:w-80">
+              <img
+                src={profile.avatar || profile.photo || "/profile.jpg"}
+                alt={`Portrait of ${profile.fullName}, full-stack developer and CSE student`}
+                loading="eager"
+                width={320}
+                height={320}
+                className="h-full w-full object-cover transition-transform duration-700 hover:scale-[1.04]"
+              />
+            </div>
+
+            <div className="absolute bottom-6 -left-4 flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 shadow-xl md:-left-12">
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+              <span className="flex flex-col">
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-muted-foreground">
+                  Currently
+                </span>
+                <span className="font-display text-base font-bold">B.Tech CSE · Amrita</span>
+              </span>
             </div>
           </div>
         </motion.div>
-
       </section>
+
 
       <section className="shell py-16" aria-labelledby="learning-heading">
         <Reveal>
