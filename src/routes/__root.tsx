@@ -83,19 +83,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Jaswant — Developer Portfolio" },
+      { title: "Jaswant Yuvarajan | CSE Student & Full-Stack Developer" },
       {
         name: "description",
-        content: "Portfolio of Jaswant, B.Tech CSE student and developer — projects, skills and articles.",
+        content:
+          "Portfolio of Jaswant Yuvarajan, B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai and Full-Stack Developer.",
       },
-      { name: "author", content: "Jaswant" },
-      { property: "og:title", content: "Jaswant — Developer Portfolio" },
+      { name: "author", content: "Jaswant Yuvarajan" },
+      { property: "og:title", content: "Jaswant Yuvarajan | CSE Student & Full-Stack Developer" },
       {
         property: "og:description",
-        content: "Interactive developer portfolio with projects, skills, articles and contact.",
+        content:
+          "Official portfolio of Jaswant Yuvarajan: B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai and Full-Stack Developer.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://jaszportfolio.vercel.app/profile.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Jaswant Yuvarajan | CSE Student & Full-Stack Developer" },
+      {
+        name: "twitter:description",
+        content:
+          "B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai & Full-Stack Developer.",
+      },
+      { name: "twitter:image", content: "https://jaszportfolio.vercel.app/profile.jpg" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -103,9 +113,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Manrope:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap",
       },
+
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "shortcut icon", href: "/favicon.ico" },
     ],
   }),
   shellComponent: RootShell,
@@ -116,9 +128,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('theme');
+                  var pref = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (saved === 'dark' || (!saved && pref)) {
+                    document.documentElement.classList.add('dark');
+                  } else if (saved === 'light') {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
       </head>
       <body>
         {children}
@@ -143,12 +172,13 @@ function RootComponent() {
         Skip to content
       </a>
       <FloatingNav />
-      <div id="content">
+      <main id="content">
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
-      </div>
+      </main>
       <SiteFooter />
       <Toaster position="top-center" richColors />
     </QueryClientProvider>
   );
 }
+

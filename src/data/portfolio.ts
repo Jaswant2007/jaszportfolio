@@ -9,21 +9,20 @@ export const profile = {
   name: "Jaswant Yuvarajan",
   fullName: "Jaswant Yuvarajan",
   avatar: "/profile.jpg",
-  role: "B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai",
+  role: "B.Tech CSE Student @ Amrita Vishwa Vidyapeetham, Chennai | Full-Stack Developer",
   jobTitle: "Full-Stack Developer",
   headline: "Full-Stack Developer & CSE Student",
   seoDescription:
     "Jaswant Yuvarajan is a B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai, working as a full-stack developer building practical web applications and strengthening Data Structures & Algorithms.",
   identity:
     "B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai. Full-Stack Developer focused on building practical web applications, strengthening Data Structures and Algorithms, and learning modern software development.",
-  tagline:"Translating core Data Structures, OOP, and modern software principles into responsive web applications.",
+  tagline: "Full-Stack Developer focused on building practical web applications, strengthening Data Structures and Algorithms, and modern software engineering.",
   intro:
-    "I'm Jaswant Yuvarajan, a Computer Science and Engineering undergraduate at Amrita Vishwa Vidyapeetham, Chennai, and a full-stack developer in the making. I enjoy turning ideas into working software — from small C programs to complete web apps — and I'm currently deep into Python, JavaScript and Data Structures & Algorithms.",
+    "I'm Jaswant Yuvarajan, a B.Tech Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, Chennai. As a Full-Stack Developer, I build practical web applications, solve algorithm problems daily, and apply clean software design principles.",
   location: "Chennai, India",
-  email: "jas22happy@gmail.com", // ← replace with your real email
-  resumeUrl: "", // optional: link to a hosted resume PDF
-  photo: portraitAsset.url,
-
+  email: "jas22happy@gmail.com",
+  resumeUrl: "",
+  photo: "/profile.jpg",
 };
 
 export const socials = [
@@ -35,11 +34,6 @@ export const socials = [
 export const codingProfiles = [
   { label: "GitHub", href: "https://github.com/Jaswant2007", note: "Code & Projects", stat: "" },
   { label: "LeetCode", href: "https://leetcode.com/u/Jas22wanty/", note: "Problem Solving / DSA", stat: "" },
-  /*{ label: "GeeksforGeeks", href: "https://www.geeksforgeeks.org/", note: "Problem solving", stat: "" },
-  { label: "CodeChef", href: "https://www.codechef.com/", note: "Contests", stat: "" },
-  { label: "HackerRank", href: "https://www.hackerrank.com/", note: "Skill badges", stat: "" },
-  { label: "Codeforces", href: "https://codeforces.com/", note: "Competitive", stat: "" },
-  */
 ];
 
 /** LeetCode username used to fetch live public stats. Change it here only. */
@@ -75,12 +69,6 @@ export const currentlyLearning = [
     detail: "Arrays, strings, linked lists, recursion and complexity analysis.",
     progress: "In progress",
   },
-  /*{
-    title: "Web Development",
-    detail: "HTML, CSS and JavaScript fundamentals with modern interactive UI patterns.",
-    progress: "Exploring",
-  },
-  */
   {
     title: "Problem Solving",
     detail: "Daily practice on LeetCode to build consistency.",
@@ -100,17 +88,17 @@ export const certificates = [
     org: "Amrita Vishwa Vidyapeetham",
     date: "22-12-2025",
     credentialUrl:"https://unstop.com/certificate-preview/621f8dce-39f2-4790-a2bc-d9f79f58ca8d"
-
   }
 ];
 
 export const skillGroups = [
-  { group: "Languages", items: ["Python", "C", "Java", "JavaScript", "SQL (basics)"] },
-  { group: "Frontend", items: ["HTML5", "CSS3", "Vanilla JavaScript", "Responsive UI"] },
-  { group: "Backend", items: ["Python scripting", "Java OOP", "REST APIs (learning)"] },
-  { group: "Databases", items: ["MySQL (coursework)", "Relational modelling"] },
-  { group: "Tools", items: ["Git", "GitHub", "VS Code", "Vercel"] },
+  { group: "Languages", items: ["Python", "C", "Java", "JavaScript", "TypeScript"] },
+  { group: "Frontend", items: ["HTML5", "CSS3", "React", "Tailwind CSS", "Responsive UI"] },
+  { group: "Backend", items: ["Node.js", "Express", "REST APIs"] },
+  { group: "Databases", items: ["Supabase", "PostgreSQL", "Database Management"] },
+  { group: "Tools & Platforms", items: ["Git", "GitHub", "VS Code", "Vercel"] },
 ];
+
 
 export type Project = {
   title: string;
@@ -185,8 +173,9 @@ export const articles = [
 export const navLinks = [
   { label: "Home", to: "/" },
   { label: "About", to: "/about" },
-  { label: "Projects", to: "/projects" },
   { label: "Skills", to: "/skills" },
-  //{ label: "Articles", to: "/articles" },
+  { label: "Projects", to: "/projects" },
+  { label: "Articles", to: "/articles" },
   { label: "Contact", to: "/contact" },
 ] as const;
+

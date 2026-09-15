@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { useMemo, useState } from "react";
+import { ExternalLink, Github, BookOpen } from "lucide-react";
 import { PageShell, SectionHeading } from "@/components/PageShell";
 import { TiltCard } from "@/components/TiltCard";
-import { projects, projectCategories } from "@/data/portfolio";
+import { ProjectCaseStudyModal } from "@/components/ProjectCaseStudyModal";
+import { projects, projectCategories, Project } from "@/data/portfolio";
 import { pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/projects")({
@@ -19,29 +21,33 @@ export const Route = createFileRoute("/projects")({
 
 function Projects() {
   const [active, setActive] = useState<string>("All");
+  const [selectedCaseStudy, setSelectedCaseStudy] = useState<Project | null>(null);
+
   const list = useMemo(
     () => (active === "All" ? projects : projects.filter((p) => p.category === active)),
-    [active],
+    [active]
   );
 
   return (
     <PageShell variant="slide">
       <section className="shell pb-16">
         <SectionHeading
-          eyebrow="Projects"
-          title="Projects by Jaswant Yuvarajan"
-          description="Course work, experiments and side projects. Hover a card to tilt it in 3D; filter by category below."
+          eyebrow="Main Proof"
+          title="Projects & Works"
+          description="Real web applications and software experiments. Click 'Case Study' for problem breakdown, architecture, and learnings."
         />
 
+        {/* Category Filter Pills */}
         <div role="tablist" aria-label="Project categories" className="mt-8 flex flex-wrap gap-2">
           {projectCategories.map((c) => (
             <button
               key={c}
+              type="button"
               role="tab"
               aria-selected={active === c}
               onClick={() => setActive(c)}
-              className={`relative rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                active === c ? "text-primary-foreground" : "border border-border bg-card hover:bg-secondary"
+              className={`relative rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
+                active === c ? "text-primary-foreground" : "border border-border bg-card hover:bg-secondary text-muted-foreground"
               }`}
             >
               {active === c && (
@@ -52,7 +58,8 @@ function Projects() {
           ))}
         </div>
 
-        <motion.div layout className="mt-10 grid gap-5 md:grid-cols-2">
+        {/* Projects Grid */}
+        <motion.div layout className="mt-10 grid gap-6 md:grid-cols-2">
           <AnimatePresence mode="popLayout">
             {list.map((p) => (
               <motion.article
@@ -63,51 +70,73 @@ function Projects() {
                 exit={{ opacity: 0, scale: 0.95, y: -12 }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               >
-                <TiltCard className="h-full rounded-3xl border border-border bg-card p-7" intensity={12}>
-                  {p.image ? (
-                    <img
-                      src={p.image}
-                      alt={p.title}
-                      className="mb-5 h-44 w-full object-cover rounded-2xl border border-border/50"
-                    />
-                  ) : (
+                <TiltCard className="h-full flex flex-col justify-between rounded-3xl border border-border bg-card p-7" intensity={10}>
+                  <div>
+                    {/* Visual Card Header */}
                     <div
                       aria-hidden
-                      className="mb-5 h-36 rounded-2xl"
-                      style={{ background: "var(--gradient-hero)", opacity: 0.18 }}
-                    />
-                  )}
-                  <span className="text-xs font-semibold uppercase tracking-widest text-primary">{p.category}</span>
-                  <h2 className="mt-2 font-display text-xl font-semibold">{p.title}</h2>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.description}</p>
-                  <ul className="mt-4 flex flex-wrap gap-2">
-                    {p.tech.map((t) => (
-                      <li key={t} className="rounded-full bg-secondary px-3 py-1 text-xs">
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-6 flex gap-3">
-                    {p.github && (
-                      <a
-                        href={p.github}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary"
+                      className="mb-5 flex h-36 flex-col justify-end rounded-2xl p-4 border border-border/40"
+                      style={{ background: "var(--gradient-hero)", opacity: 0.15 }}
+                    >
+                      <span className="font-mono text-xs font-semibold uppercase tracking-wider text-foreground">
+                        {p.title}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-semibold uppercase tracking-widest text-primary">{p.category}</span>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedCaseStudy(p)}
+                        className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1"
                       >
-                        GitHub ↗
-                      </a>
-                    )}
+                        <BookOpen className="h-3.5 w-3.5" />
+                        <span>Case Study</span>
+                      </button>
+                    </div>
+
+                    <h2 className="mt-2 font-display text-2xl font-semibold">{p.title}</h2>
+                    <p className="mt-2 text-xs sm:text-sm leading-relaxed text-muted-foreground">{p.description}</p>
+
+                    <ul className="mt-4 flex flex-wrap gap-2">
+                      {p.tech.map((t) => (
+                        <li key={t} className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mt-6 flex flex-wrap items-center gap-3 pt-4 border-t border-border/50 text-xs font-semibold">
                     {p.demo && (
                       <a
                         href={p.demo}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
+                        className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-primary-foreground lift"
                       >
-                        Live demo ↗
+                        <span>Live Demo</span>
+                        <ExternalLink className="h-3.5 w-3.5" />
                       </a>
                     )}
+                    {p.github && (
+                      <a
+                        href={p.github}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 hover:bg-secondary transition-colors"
+                      >
+                        <Github className="h-3.5 w-3.5" />
+                        <span>GitHub</span>
+                      </a>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setSelectedCaseStudy(p)}
+                      className="rounded-full border border-border px-4 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                    >
+                      Read Case Study
+                    </button>
                   </div>
                 </TiltCard>
               </motion.article>
@@ -121,6 +150,9 @@ function Projects() {
           </p>
         )}
       </section>
+
+      {/* Case Study Modal */}
+      <ProjectCaseStudyModal project={selectedCaseStudy} onClose={() => setSelectedCaseStudy(null)} />
     </PageShell>
   );
 }
