@@ -1,86 +1,129 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
-/** Premium two-layer dot & ring cursor. Desktop / fine-pointer only. */
+/**
+ * Clean & Decent Minimalist Developer Cursor.
+ * Refined dual-layer pointer with smooth spring lag and gentle interactive expansion.
+ */
 export function CustomCursor() {
   const [enabled, setEnabled] = useState(false);
-  const [pos, setPos] = useState({ x: -100, y: -100 });
-  const [ring, setRing] = useState({ x: -100, y: -100 });
-  const [active, setActive] = useState(false);
-  const [clicked, setClicked] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isClicking, setIsClicking] = useState(false);
+
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!fine || reduced) return;
+
     setEnabled(true);
     document.documentElement.classList.add("cursor-hidden");
 
     let rx = -100;
     let ry = -100;
-    let raf = 0;
     let tx = -100;
     let ty = -100;
+    let raf = 0;
 
     const move = (e: PointerEvent) => {
       tx = e.clientX;
       ty = e.clientY;
-      setPos({ x: tx, y: ty });
+      if (!visible) setVisible(true);
+
+      // Instant inner dot placement
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+      }
+
       const el = e.target as HTMLElement | null;
-      setActive(
-        !!el?.closest(
-          "a, button, [role='button'], input, textarea, select, [data-cursor='hover'], .lift, article, summary"
-        )
+      if (!el) return;
+
+      const interactive = !!el.closest(
+        "a, button, [role='button'], input, textarea, select, summary, .lift, article, [data-cursor]"
       );
+      setIsHovered(interactive);
     };
 
-    const down = () => setClicked(true);
-    const up = () => setClicked(false);
+    const handleLeave = () => setVisible(false);
+    const handleEnter = () => setVisible(true);
+    const down = () => setIsClicking(true);
+    const up = () => setIsClicking(false);
 
     const loop = () => {
-      rx += (tx - rx) * 0.16;
-      ry += (ty - ry) * 0.16;
-      setRing({ x: rx, y: ry });
+      // Gentle spring lerp for the outer ring
+      rx += (tx - rx) * 0.18;
+      ry += (ty - ry) * 0.18;
+
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+      }
+
       raf = requestAnimationFrame(loop);
     };
 
     window.addEventListener("pointermove", move, { passive: true });
     window.addEventListener("pointerdown", down, { passive: true });
     window.addEventListener("pointerup", up, { passive: true });
+    document.addEventListener("mouseleave", handleLeave);
+    document.addEventListener("mouseenter", handleEnter);
     raf = requestAnimationFrame(loop);
 
     return () => {
       window.removeEventListener("pointermove", move);
       window.removeEventListener("pointerdown", down);
       window.removeEventListener("pointerup", up);
+      document.removeEventListener("mouseleave", handleLeave);
+      document.removeEventListener("mouseenter", handleEnter);
       cancelAnimationFrame(raf);
       document.documentElement.classList.remove("cursor-hidden");
     };
-  }, []);
+  }, [visible]);
 
   if (!enabled) return null;
 
-  const ringSize = clicked ? (active ? 48 : 24) : active ? 40 : 30;
-
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-[999] overflow-hidden">
-      {/* Central Dot */}
+    <div
+      aria-hidden
+      className={`pointer-events-none fixed inset-0 z-[9999] transition-opacity duration-200 ${
+        visible ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      {/* Precision Micro Dot */}
       <div
-        className="absolute h-1.5 w-1.5 rounded-full bg-primary transition-transform duration-100 ease-out"
-        style={{
-          transform: `translate3d(${pos.x - 3}px, ${pos.y - 3}px, 0) scale(${clicked ? 0.7 : 1})`,
-        }}
-      />
-      {/* Trailing Ring */}
+        ref={dotRef}
+        className="absolute -translate-x-1/2 -translate-y-1/2 will-change-transform"
+      >
+        <div
+          className={`rounded-full bg-primary transition-all duration-150 ease-out ${
+            isClicking
+              ? "h-1 w-1 scale-75 opacity-90"
+              : isHovered
+                ? "h-1.5 w-1.5 opacity-80"
+                : "h-1.5 w-1.5 shadow-[0_0_6px_rgba(37,99,235,0.6)]"
+          }`}
+        />
+      </div>
+
+      {/* Trailing Smooth Ring */}
       <div
-        className="absolute rounded-full border-2 border-primary/70 bg-primary/5 transition-[width,height,opacity,border-color,background-color] duration-200 ease-out"
-        style={{
-          width: ringSize,
-          height: ringSize,
-          opacity: active ? 0.95 : 0.5,
-          transform: `translate3d(${ring.x - ringSize / 2}px, ${ring.y - ringSize / 2}px, 0)`,
-        }}
-      />
+        ref={ringRef}
+        className="absolute -translate-x-1/2 -translate-y-1/2 will-change-transform"
+      >
+        <div
+          className={`rounded-full border border-primary/50 transition-all duration-200 ease-out ${
+            isClicking
+              ? "h-6 w-6 border-primary bg-primary/20 scale-90"
+              : isHovered
+                ? "h-10 w-10 border-primary/70 bg-primary/10 shadow-[0_0_16px_rgba(37,99,235,0.2)] scale-110"
+                : "h-7 w-7 bg-primary/[0.03]"
+          }`}
+        />
+      </div>
     </div>
   );
 }
+
+
 

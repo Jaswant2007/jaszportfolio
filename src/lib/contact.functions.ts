@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-const contactSchema = z.object({
+export const contactSchema = z.object({
   name: z.string().trim().min(2, "Please enter your name.").max(120),
   email: z.string().trim().email("Please enter a valid email address.").max(200),
   subject: z.string().trim().min(3, "Please add a short subject.").max(200),
@@ -9,14 +9,6 @@ const contactSchema = z.object({
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;
-
-const escapeHtml = (value: string) =>
-  value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
 
 export const sendContactEmail = createServerFn({ method: "POST" })
   .validator((data: ContactInput) => contactSchema.parse(data))
@@ -27,18 +19,6 @@ export const sendContactEmail = createServerFn({ method: "POST" })
     const apiKey = process.env["RESEND_API_KEY"];
     const lovableApiKey = process.env["LOVABLE_API_KEY"];
     if (apiKey && lovableApiKey) {
-      const html = `
-        <div style="font-family:Arial,Helvetica,sans-serif;line-height:1.6;color:#111">
-          <h2 style="margin:0 0 12px">New portfolio message for Jaswant</h2>
-          <p style="margin:0 0 4px"><strong>From:</strong> ${escapeHtml(data.name)} (&lt;${escapeHtml(data.email)}&gt;)</p>
-          <p style="margin:0 0 4px"><strong>To Owner:</strong> ${targetEmail}</p>
-          <p style="margin:0 0 16px"><strong>Subject:</strong> ${escapeHtml(data.subject)}</p>
-          <div style="white-space:pre-wrap;padding:16px;border:1px solid #e5e7eb;border-radius:12px;background:#fafafa">${escapeHtml(
-            data.message,
-          )}</div>
-        </div>
-      `;
-
       try {
         const response = await fetch("https://connector-gateway.lovable.dev/resend/emails", {
           method: "POST",
@@ -52,7 +32,15 @@ export const sendContactEmail = createServerFn({ method: "POST" })
             to: [targetEmail],
             reply_to: data.email,
             subject: `[Portfolio Contact] ${data.subject}`,
-            html,
+            html: `
+              <div style="font-family:Arial,Helvetica,sans-serif;line-height:1.6;color:#111">
+                <h2 style="margin:0 0 12px">New portfolio message for Jaswant</h2>
+                <p style="margin:0 0 4px"><strong>From:</strong> ${data.name} (&lt;${data.email}&gt;)</p>
+                <p style="margin:0 0 4px"><strong>To Owner:</strong> ${targetEmail}</p>
+                <p style="margin:0 0 16px"><strong>Subject:</strong> ${data.subject}</p>
+                <div style="white-space:pre-wrap;padding:16px;border:1px solid #e5e7eb;border-radius:12px;background:#fafafa">${data.message}</div>
+              </div>
+            `,
           }),
         });
 
@@ -60,33 +48,12 @@ export const sendContactEmail = createServerFn({ method: "POST" })
           return { ok: true as const, recipient: targetEmail };
         }
       } catch (err) {
-        console.warn("[contact] Resend connector attempt failed, trying fallback:", err);
+        console.warn("[contact] Resend connector attempt failed:", err);
       }
     }
 
-    // Attempt 2: Public Form submission fallback endpoint
-    try {
-      const formRes = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          access_key: "099a9b0c-9a4f-4091-a1bf-1d6092b7c6c4",
-          name: data.name,
-          email: data.email,
-          subject: `[Jaswant Portfolio] ${data.subject}`,
-          message: data.message,
-          to: targetEmail,
-        }),
-      });
-
-      if (formRes.ok) {
-        return { ok: true as const, recipient: targetEmail };
-      }
-    } catch (e) {
-      console.warn("[contact] Web3Forms fallback attempt:", e);
-    }
-
-    // Fallback: Signal client to trigger direct mailto dispatch so the user's message is NEVER lost
-    return { ok: true as const, mailtoFallback: true, recipient: targetEmail };
+    // Return client-dispatch instruction so browser directly submits to FormSubmit or mailto fallback
+    return { ok: false as const, requiresClientSubmit: true, recipient: targetEmail };
   });
+
 
